@@ -22,7 +22,7 @@ public class TaskController {
     }
 
     @PostMapping()
-    public ResponseEntity<Task> createTask(@RequestBody Task task) { //"built 'Task' entity; added corresponding controller, service, and repository; successful connection to DB; successfull 'POST'
+    public ResponseEntity<Task> createTask(@RequestBody Task task) {
         Task createdTask = taskService.createTask(task);
         return new ResponseEntity<>(createdTask, HttpStatus.OK);
     }
