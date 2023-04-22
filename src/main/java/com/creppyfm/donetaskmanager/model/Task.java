@@ -3,9 +3,10 @@ package com.creppyfm.donetaskmanager.model;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
+
+import java.time.LocalDateTime;
 
 @Document(collection = "Task")
 @Data
@@ -14,17 +15,28 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class Task {
     @Id
     private String id;
+    private String projectTitle;
     private String title;
     private String description;
     private String status;
+    private LocalDateTime created;
+    private LocalDateTime updated;
 
+
+    //manual constructor for associating task with project
+    public Task(String projectTitle, String title, String description, String status, LocalDateTime created, LocalDateTime updated) {
+        this.projectTitle = projectTitle;
+        this.title = title;
+        this.description = description;
+        this.status = status;
+    }
     // Getters and setters
     public String getId() {
         return id;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setProjectTitle(String projectTitle) {
+        this.projectTitle = projectTitle;
     }
 
     public String getTitle() {
@@ -49,5 +61,20 @@ public class Task {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public LocalDateTime getCreationDate() {
+        return created;
+    }
+
+    public void setCreationDate(LocalDateTime created) {
+        this.created = created;
+    }
+    public LocalDateTime getUpdatedDate() {
+        return updated;
+    }
+
+    public void setUpdatedDate(LocalDateTime updated) {
+        this.updated = updated;
     }
 }
