@@ -46,7 +46,7 @@ public class TaskService {
         }
     }
 
-    public Task updateTask(String id, Task updatedTask) {
+    public Task updateTask(String id, Task updatedTask) { //must update in associated 'Project' as well
         Optional<Task> task = taskRepository.findById(id);
         if (task.isPresent()) {
             Task existingTask = task.get();
@@ -59,7 +59,7 @@ public class TaskService {
         }
     }
 
-    public void deleteTask(String id) {
+    public void deleteTask(String id) { //must delete from associated 'Project' as well
         Optional<Task> task = taskRepository.findById(id);
         if (task.isPresent()) {
             taskRepository.deleteById(id);

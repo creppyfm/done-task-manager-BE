@@ -42,12 +42,12 @@ public class TaskController {
         return taskService.getTaskById(id);
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/{id}") //must update in associated 'Project' as well
     public Task updateTask(@PathVariable String id, @RequestBody Task updatedTask) {
         return taskService.updateTask(id, updatedTask);
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/{id}") //must delete from associated 'Project' as well
     public void deleteTask(@PathVariable String id) {
         taskService.deleteTask(id);
     }

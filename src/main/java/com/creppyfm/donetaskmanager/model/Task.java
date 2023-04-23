@@ -23,7 +23,7 @@ public class Task {
     private LocalDateTime updated;
 
 
-    //manual constructor for associating task with project
+    //manual constructor for associating 'Task' with 'Project'
     public Task(String projectTitle, String title, String description, String status, LocalDateTime created, LocalDateTime updated) {
         this.projectTitle = projectTitle;
         this.title = title;

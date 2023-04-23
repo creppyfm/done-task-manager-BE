@@ -8,6 +8,7 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.DocumentReference;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Document(collection = "Project")
@@ -17,12 +18,24 @@ import java.util.List;
 public class Project {
     @Id
     private ObjectId id;
-    private String userId;
+    private String username;
     private String title;
     private String description;
     private String phase; //ex: yet to begin, working on it, finished
+    private LocalDateTime created;
+    private LocalDateTime updated;
     @DocumentReference
     private List<Task> taskList;
+
+    //manual constructor for associating 'Project' with 'User'
+    public Project(String username, String title, String description, String phase, LocalDateTime created, LocalDateTime updated) {
+        this.username = username;
+        this.title = title;
+        this.description = description;
+        this.phase = phase;
+        this.created = created;
+        this.updated = updated;
+    }
 
     public ObjectId getId() {
         return id;
