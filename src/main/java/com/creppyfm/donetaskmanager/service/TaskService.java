@@ -23,12 +23,6 @@ public class TaskService {
     @Autowired
     private MongoTemplate mongoTemplate;
 
-/*
-    public Task createTask(Task task) {
-        return taskRepository.save(task);
-    }
-*/
-
     public Task createTask(String projectTitle, String title, String description, String status) {
         Task task = taskRepository.insert(new Task(projectTitle, title, description, status, LocalDateTime.now(), LocalDateTime.now())); //insert into 'Task' collection
         mongoTemplate.update(Project.class) //insert into 'Project->taskList' array

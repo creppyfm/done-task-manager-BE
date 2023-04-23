@@ -19,8 +19,8 @@ public class ProjectService {
         return projectRepository.findAll();
     }
 
-    public Project findProjectById(String projectId) {
-        return projectRepository.findProjectByProjectId(projectId);
+    public Project findProjectById(String id) {
+        return projectRepository.findProjectById(id);
     }
 
     public Project createProject(Project project) {

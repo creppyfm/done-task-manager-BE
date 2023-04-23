@@ -17,7 +17,6 @@ import java.util.List;
 public class Project {
     @Id
     private ObjectId id;
-    private String projectId;
     private String userId;
     private String title;
     private String description;
@@ -25,8 +24,8 @@ public class Project {
     @DocumentReference
     private List<Task> taskList;
 
-    public String getId() {
-        return projectId;
+    public ObjectId getId() {
+        return id;
     }
 
     public String getTitle() {
