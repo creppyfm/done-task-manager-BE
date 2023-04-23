@@ -29,6 +29,8 @@ public class Task {
         this.title = title;
         this.description = description;
         this.status = status;
+        this.created = created;
+        this.updated = updated;
     }
     // Getters and setters
     public String getId() {
