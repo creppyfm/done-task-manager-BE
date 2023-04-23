@@ -23,6 +23,7 @@ public class User {
     private String password;
     private String email;
     private String birthday;
+    private boolean isAdmin;
     @DocumentReference
     private List<Project> projects;
 
@@ -88,5 +89,12 @@ public class User {
 
     public void setProjects(List<Project> projects) {
         this.projects = projects;
+    }
+
+    public void setAdminStatus(boolean adminStatus) {
+        this.isAdmin = adminStatus;
+    }
+    public boolean getAdminStatus() {
+        return isAdmin;
     }
 }
