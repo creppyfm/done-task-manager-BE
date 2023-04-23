@@ -29,10 +29,10 @@ public class TaskService {
     }
 */
 
-    public Task createTask(String projectId, String title, String description, String status) {
-        Task task = taskRepository.insert(new Task(projectId, title, description, status, LocalDateTime.now(), LocalDateTime.now())); //insert into 'Task' collection
+    public Task createTask(String projectTitle, String title, String description, String status) {
+        Task task = taskRepository.insert(new Task(projectTitle, title, description, status, LocalDateTime.now(), LocalDateTime.now())); //insert into 'Task' collection
         mongoTemplate.update(Project.class) //insert into 'Project->taskList' array
-                .matching(Criteria.where("projectId").is(projectId))
+                .matching(Criteria.where("title").is(projectTitle))
                 .apply(new Update().push("taskList").value(task))
                 .first();
 
