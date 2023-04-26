@@ -17,6 +17,7 @@ public class DoneTaskManagerApplication {
 		System.setProperty("MONGO_PASSWORD", dotenv.get("MONGO_PASSWORD"));
 		System.setProperty("MONGO_CLUSTER", dotenv.get("MONGO_CLUSTER"));
 		System.setProperty("MONGO_DATABASE", dotenv.get("MONGO_DATABASE"));
+		System.setProperty("OPENAI_API_KEY", dotenv.get("OPENAI_API_KEY"));
 
 		SpringApplication.run(DoneTaskManagerApplication.class, args);
 
