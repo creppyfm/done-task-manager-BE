@@ -18,7 +18,7 @@ import java.util.List;
 public class Project {
     @Id
     private ObjectId id;
-    private String username;
+    private String userId;
     private String title;
     private String description;
     private String phase; //ex: yet to begin, working on it, finished
@@ -28,8 +28,8 @@ public class Project {
     private List<Task> taskList;
 
     //manual constructor for associating 'Project' with 'User'
-    public Project(String username, String title, String description, String phase, LocalDateTime created, LocalDateTime updated) {
-        this.username = username;
+    public Project(String userId, String title, String description, String phase, LocalDateTime created, LocalDateTime updated) {
+        this.userId = userId;
         this.title = title;
         this.description = description;
         this.phase = phase;

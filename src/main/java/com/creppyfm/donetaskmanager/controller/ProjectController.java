@@ -1,6 +1,7 @@
 package com.creppyfm.donetaskmanager.controller;
 
 import com.creppyfm.donetaskmanager.model.Project;
+import com.creppyfm.donetaskmanager.model.Task;
 import com.creppyfm.donetaskmanager.service.ProjectService;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +24,7 @@ public class ProjectController {
         return new ResponseEntity<List<Project>>(projectService.findAllProjects(), HttpStatus.OK);
     }
 
+
     @GetMapping("/{id}")
     public ResponseEntity<Project> getSingleProject(@PathVariable String id) {
         return new ResponseEntity<Project>(projectService.findProjectById(id), HttpStatus.OK);
@@ -30,7 +32,11 @@ public class ProjectController {
 
     @PostMapping()
     public ResponseEntity<Project> createProject(@RequestBody Project project) {
-        Project createdProject = projectService.createProject(project);
-        return new ResponseEntity<>(createdProject, HttpStatus.OK);
+        String userId = project.getUserId();
+        String title = project.getTitle();
+        String description = project.getDescription();
+        String phase = project.getPhase();
+        return new ResponseEntity<Project>(projectService.
+                createProject(userId, title, description, phase), HttpStatus.OK);
     }
 }

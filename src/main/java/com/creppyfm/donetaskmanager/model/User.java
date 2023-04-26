@@ -1,5 +1,6 @@
 package com.creppyfm.donetaskmanager.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -23,6 +24,7 @@ public class User {
     private String password;
     private String email;
     private String birthday;
+    @JsonProperty("isAdmin")
     private boolean isAdmin;
     @DocumentReference
     private List<Project> projects;
@@ -91,10 +93,10 @@ public class User {
         this.projects = projects;
     }
 
-    public void setAdminStatus(boolean adminStatus) {
-        this.isAdmin = adminStatus;
+    public void setAdmin(boolean isAdmin) {
+        this.isAdmin = isAdmin;
     }
-    public boolean getAdminStatus() {
+    public boolean isAdmin() {
         return isAdmin;
     }
 }

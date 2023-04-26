@@ -23,13 +23,13 @@ public class TaskController {
 
     @PostMapping()
     public ResponseEntity<Task> createTask(@RequestBody Task task) {
-        String projectTitle = task.getProjectTitle();
+        String projectId = task.getProjectId();
         String title = task.getTitle();
         String description = task.getDescription();
         String status = task.getStatus();
 
         return new ResponseEntity<Task>(taskService.
-                createTask(projectTitle, title, description, status), HttpStatus.OK);
+                createTask(projectId, title, description, status), HttpStatus.OK);
     }
 
     @GetMapping

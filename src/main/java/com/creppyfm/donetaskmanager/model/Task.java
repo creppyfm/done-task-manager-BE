@@ -15,7 +15,7 @@ import java.time.LocalDateTime;
 public class Task {
     @Id
     private String id;
-    private String projectTitle;
+    private String projectId;
     private String title;
     private String description;
     private String status;
@@ -24,8 +24,8 @@ public class Task {
 
 
     //manual constructor for associating 'Task' with 'Project'
-    public Task(String projectTitle, String title, String description, String status, LocalDateTime created, LocalDateTime updated) {
-        this.projectTitle = projectTitle;
+    public Task(String projectId, String title, String description, String status, LocalDateTime created, LocalDateTime updated) {
+        this.projectId = projectId;
         this.title = title;
         this.description = description;
         this.status = status;
@@ -37,8 +37,8 @@ public class Task {
         return id;
     }
 
-    public void setProjectTitle(String projectTitle) {
-        this.projectTitle = projectTitle;
+    public void setProjectId(String projectId) {
+        this.projectId = projectId;
     }
 
     public String getTitle() {
