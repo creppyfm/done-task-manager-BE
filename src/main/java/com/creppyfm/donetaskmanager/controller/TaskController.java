@@ -42,10 +42,16 @@ public class TaskController {
         return taskService.getTaskById(id);
     }
 
-    @PutMapping("/{id}") //must update in associated 'Project' as well
-    public Task updateTask(@PathVariable String id, @RequestBody Task updatedTask) {
-        return taskService.updateTask(id, updatedTask);
+    @PutMapping("/{id}")
+    public ResponseEntity<Task> updateTask(@PathVariable("id") String id, @RequestBody Task updatedTask) {
+        Task task = taskService.updateTask(id, updatedTask);
+        if (task != null) {
+            return new ResponseEntity<>(task, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
+
 
     @DeleteMapping("/{id}") //must delete from associated 'Project' as well
     public void deleteTask(@PathVariable String id) {

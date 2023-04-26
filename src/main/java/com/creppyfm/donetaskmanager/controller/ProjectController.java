@@ -39,4 +39,15 @@ public class ProjectController {
         return new ResponseEntity<Project>(projectService.
                 createProject(userId, title, description, phase), HttpStatus.OK);
     }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Project> updateProject(@PathVariable("id") String id, @RequestBody Project updatedProject) {
+        Project project = projectService.updateProject(id, updatedProject);
+        if (project != null) {
+            return new ResponseEntity<>(project, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
 }

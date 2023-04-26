@@ -2,6 +2,7 @@ package com.creppyfm.donetaskmanager.service;
 
 import com.creppyfm.donetaskmanager.model.Project;
 import com.creppyfm.donetaskmanager.model.Task;
+import com.creppyfm.donetaskmanager.repository.ProjectRepository;
 import com.creppyfm.donetaskmanager.repository.TaskRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
@@ -19,9 +20,10 @@ public class TaskService {
 
     @Autowired
     private TaskRepository taskRepository;
-
     @Autowired
     private MongoTemplate mongoTemplate;
+    @Autowired
+    private ProjectRepository projectRepository;
 
     public Task createTask(String projectId, String title, String description, String status) {
         Task task = taskRepository.insert(new Task(projectId, title, description, status, LocalDateTime.now(), LocalDateTime.now())); //insert into 'Task' collection
@@ -46,18 +48,31 @@ public class TaskService {
         }
     }
 
-    public Task updateTask(String id, Task updatedTask) { //must update in associated 'Project' as well
-        Optional<Task> task = taskRepository.findById(id);
-        if (task.isPresent()) {
-            Task existingTask = task.get();
+    public Task updateTask(String id, Task updatedTask) {
+        Optional<Task> optionalTask = taskRepository.findById(id);
+        if (optionalTask.isPresent()) {
+            Task existingTask = optionalTask.get();
             existingTask.setTitle(updatedTask.getTitle());
             existingTask.setDescription(updatedTask.getDescription());
             existingTask.setStatus(updatedTask.getStatus());
+            existingTask.setUpdated(LocalDateTime.now());
+
+            // Update task in the project's taskList
+            Project project = projectRepository.findByTaskListContaining(existingTask);
+            if (project != null) {
+                int taskIndex = project.getTaskList().indexOf(existingTask);
+                if (taskIndex >= 0) { // Check if the index is within bounds
+                    project.getTaskList().set(taskIndex, existingTask);
+                    projectRepository.save(project);
+                }
+            }
+
             return taskRepository.save(existingTask);
         } else {
-            throw new RuntimeException("Task not found with id: " + id);
+            return null;
         }
     }
+
 
     public void deleteTask(String id) { //must delete from associated 'Project' as well
         Optional<Task> task = taskRepository.findById(id);
