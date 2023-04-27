@@ -37,8 +37,8 @@ public class Project {
         this.updated = updated;
     }
 
-    public ObjectId getId() {
-        return id;
+    public String getId() {
+        return id.toString();
     }
 
     public String getTitle() {

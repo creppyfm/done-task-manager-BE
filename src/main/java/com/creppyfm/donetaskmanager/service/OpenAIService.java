@@ -39,7 +39,7 @@ public class OpenAIService {
         String apiKey = System.getenv("OPENAI_API_KEY");
         String apiUrl = "https://api.openai.com/v1/completions";
 
-        String jsonBody = gson.toJson(new OpenAiRequest("text-davinci-002", prompt, 10)); // Create the JSON request body
+        String jsonBody = gson.toJson(new OpenAiRequest("text-davinci-003", prompt, 10)); // Create the JSON request body
 
         Request request = new Request.Builder() // Prepare the API request
                 .url(apiUrl)

@@ -52,9 +52,13 @@ public class TaskController {
         }
     }
 
-
-    @DeleteMapping("/{id}") //must delete from associated 'Project' as well
-    public void deleteTask(@PathVariable String id) {
-        taskService.deleteTask(id);
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteTask(@PathVariable("id") String id) {
+        boolean isDeleted = taskService.deleteTask(id);
+        if (isDeleted) {
+            return new ResponseEntity<>(HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 }

@@ -50,4 +50,15 @@ public class ProjectController {
         }
     }
 
+    //TODO: must also remove any associated tasks from 'Task' collection
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteProject(@PathVariable("id") String id) {
+        boolean isDeleted = projectService.deleteProject(id);
+        if (isDeleted) {
+            return new ResponseEntity<>(HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
 }

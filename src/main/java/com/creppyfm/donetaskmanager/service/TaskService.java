@@ -73,13 +73,22 @@ public class TaskService {
         }
     }
 
+    public boolean deleteTask(String id) {
+        Optional<Task> optionalTask = taskRepository.findById(id);
+        if (optionalTask.isPresent()) {
+            Task existingTask = optionalTask.get();
 
-    public void deleteTask(String id) { //must delete from associated 'Project' as well
-        Optional<Task> task = taskRepository.findById(id);
-        if (task.isPresent()) {
+            // Remove task from the project's taskList
+            Project project = projectRepository.findByTaskListContaining(existingTask);
+            if (project != null) {
+                project.getTaskList().remove(existingTask);
+                projectRepository.save(project);
+            }
+
             taskRepository.deleteById(id);
+            return true;
         } else {
-            throw new RuntimeException("Task not found with id: " + id);
+            return false;
         }
     }
 }

@@ -4,6 +4,7 @@ import com.creppyfm.donetaskmanager.model.Project;
 import com.creppyfm.donetaskmanager.model.Task;
 import com.creppyfm.donetaskmanager.model.User;
 import com.creppyfm.donetaskmanager.repository.ProjectRepository;
+import com.creppyfm.donetaskmanager.repository.TaskRepository;
 import com.creppyfm.donetaskmanager.repository.UserRepository;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +26,8 @@ public class ProjectService {
     private MongoTemplate mongoTemplate;
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private TaskRepository taskRepository;
 
     public List<Project> findAllProjects() {
         return projectRepository.findAll();
@@ -64,6 +67,28 @@ public class ProjectService {
             return projectRepository.save(existingProject);
         } else {
             return null;
+        }
+    }
+
+    public boolean deleteProject(String id) {
+        Optional<Project> optionalProject = projectRepository.findById(id);
+        if (optionalProject.isPresent()) {
+            Project existingProject = optionalProject.get();
+
+            // Remove project from the user's projects list
+            User user = userRepository.findByProjectsContaining(existingProject);
+            if (user != null) {
+                user.getProjects().remove(existingProject);
+                userRepository.save(user);
+            }
+
+            // Remove associated tasks from the Task collection
+            taskRepository.deleteAll(existingProject.getTaskList());
+
+            projectRepository.deleteById(id);
+            return true;
+        } else {
+            return false;
         }
     }
 
