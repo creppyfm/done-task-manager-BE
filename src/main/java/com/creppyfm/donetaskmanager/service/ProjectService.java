@@ -6,13 +6,13 @@ import com.creppyfm.donetaskmanager.model.User;
 import com.creppyfm.donetaskmanager.repository.ProjectRepository;
 import com.creppyfm.donetaskmanager.repository.TaskRepository;
 import com.creppyfm.donetaskmanager.repository.UserRepository;
-import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -26,6 +26,8 @@ public class ProjectService {
     private MongoTemplate mongoTemplate;
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private TaskService taskService;
     @Autowired
     private TaskRepository taskRepository;
 
@@ -45,6 +47,36 @@ public class ProjectService {
                 .first();
         return project;
     }
+
+    // TODO: incorporate task description into prompt
+    public void generateTasksForProject(String id) throws IOException {
+        Project project = findProjectById(id);
+
+        String projectInfo = String.format("Title: %s\nDescription: %s\n\nList of tasks to complete the project:", project.getTitle(), project.getDescription());
+        String prompt =
+                "Read the project title and description included below, and generate a list " +
+                "of no more than 10 steps to complete the project. Each step must be " +
+                "on its own line." +
+                "Here is the project information:\n"
+                + projectInfo;
+
+        // Call the OpenAIAPIManager to get the list of tasks
+        OpenAIAPIManager openAIAPIManager = new OpenAIAPIManager();
+        List<String> tasks;
+        try {
+            tasks = openAIAPIManager.buildsTaskList(prompt);
+        } catch (IOException | InterruptedException e) {
+            throw new IOException(e);
+        }
+
+        for (String taskTitle : tasks) {
+            Task task = taskService.createTask(id, taskTitle, "", "in-progress");
+            project.getTaskList().add(task);
+        }
+
+        projectRepository.save(project);
+    }
+
 
     public Project updateProject(String id, Project updatedProject) {
         Optional<Project> optionalProject = projectRepository.findById(id);

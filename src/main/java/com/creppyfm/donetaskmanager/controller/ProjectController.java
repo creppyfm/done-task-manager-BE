@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.util.List;
 
 @RestController
@@ -40,6 +41,13 @@ public class ProjectController {
                 createProject(userId, title, description, phase), HttpStatus.OK);
     }
 
+    @PostMapping("/{id}/tasks/generate")
+    public ResponseEntity<Project> generateTasksForProject(@PathVariable String id) throws IOException {
+        projectService.generateTasksForProject(id);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+
     @PutMapping("/{id}")
     public ResponseEntity<Project> updateProject(@PathVariable("id") String id, @RequestBody Project updatedProject) {
         Project project = projectService.updateProject(id, updatedProject);
@@ -50,7 +58,6 @@ public class ProjectController {
         }
     }
 
-    //TODO: must also remove any associated tasks from 'Task' collection
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteProject(@PathVariable("id") String id) {
         boolean isDeleted = projectService.deleteProject(id);

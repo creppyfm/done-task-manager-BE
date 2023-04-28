@@ -5,8 +5,10 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.DocumentReference;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Document(collection = "Task")
 @Data
@@ -19,9 +21,11 @@ public class Task {
     private String title;
     private String description;
     private String status;
+    private int priority; // 1 -> highest priority, 5 -> lowest priority
     private LocalDateTime created;
     private LocalDateTime updated;
-
+    @DocumentReference
+    private List<SubTask> subTasks;
 
     //manual constructor for associating 'Task' with 'Project'
     public Task(String projectId, String title, String description, String status, LocalDateTime created, LocalDateTime updated) {
@@ -65,6 +69,14 @@ public class Task {
         this.status = status;
     }
 
+    public int getPriority() {
+        return priority;
+    }
+
+    public void setPriority(int priority) {
+        this.priority = priority;
+    }
+
     public LocalDateTime getCreationDate() {
         return created;
     }
@@ -79,4 +91,13 @@ public class Task {
     public void setUpdatedDate(LocalDateTime updated) {
         this.updated = updated;
     }
+
+    public List<SubTask> getSubTasks() {
+        return subTasks;
+    }
+
+    public void setSubTasks(List<SubTask> subTasks) {
+        this.subTasks = subTasks;
+    }
+
 }
