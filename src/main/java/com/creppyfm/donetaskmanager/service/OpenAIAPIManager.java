@@ -23,7 +23,7 @@ public class OpenAIAPIManager {
     public List<String> buildsTaskList(String prompt) throws IOException, InterruptedException {
         List<String> choices = new ArrayList<>();
         ObjectMapper objectMapper = new ObjectMapper();
-        OpenAIRequest openAIRequest = new OpenAIRequest("text-davinci-003", prompt, 1, 1000);
+        OpenAIRequest openAIRequest = new OpenAIRequest("text-davinci-003", prompt, 0, 2000);
         String input = objectMapper.writeValueAsString(openAIRequest);
 
         HttpRequest httpRequest = HttpRequest.newBuilder()

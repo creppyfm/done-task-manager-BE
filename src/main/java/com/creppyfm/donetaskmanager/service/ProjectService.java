@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -56,7 +57,12 @@ public class ProjectService {
         String prompt =
                 "Read the project title and description included below, and generate a list " +
                 "of no more than 10 steps to complete the project. Each step must be " +
-                "on its own line." +
+                "on its own line. Each step should be presented in the form of a key:value pair " +
+                "containing the title of the step as the key, and a concise, 3 to 5 sentence description " +
+                "of the step as the value. The format of each step should match the following example:\n " +
+                "1. Setup Java & Spring Boot: Value: Install the Java runtime environment. Download and configure " +
+                        "the Spring Boot application using the Spring Initializer, making sure to add the necessary dependencies. " +
+                        "Confirm the file structure of the Spring Boot application matches the needs of your project.\n " +
                 "Here is the project information:\n"
                 + projectInfo;
 
@@ -69,9 +75,17 @@ public class ProjectService {
             throw new IOException(e);
         }
 
-        for (String taskTitle : tasks) {
-            Task task = taskService.createTask(id, taskTitle, "", "in-progress");
-            project.getTaskList().add(task);
+        for (String response : tasks) {
+            if (response.length() > 0) {
+                System.out.println(response);
+                String[] taskAndDescription = response.split(": Value: ");
+                if (taskAndDescription.length > 1) {
+                    String taskTitle = taskAndDescription[0];
+                    String taskDescription = taskAndDescription[1];
+                    Task task = taskService.createTask(id, taskTitle, taskDescription, "in-progress");
+                    project.getTaskList().add(task);
+                }
+            }
         }
 
         projectRepository.save(project);
