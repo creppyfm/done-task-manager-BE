@@ -26,6 +26,7 @@ public class Project {
     private LocalDateTime updated;
     @DocumentReference
     private List<Task> taskList;
+    private List<User> team;
 
     //manual constructor for associating 'Project' with 'User'
     public Project(String userId, String title, String description, String phase, LocalDateTime created, LocalDateTime updated) {
@@ -72,4 +73,13 @@ public class Project {
     public List<Task> getTaskList () {
         return this.taskList;
     }
+
+    public List<User> getTeam() {
+        return team;
+    }
+
+    public void setTeam(List<User> team) {
+        this.team = team;
+    }
+
 }

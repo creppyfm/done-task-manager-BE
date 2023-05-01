@@ -26,6 +26,7 @@ public class Task {
     private LocalDateTime updated;
     @DocumentReference
     private List<SubTask> subTasks;
+    private List<User> assignedUsers;
 
     //manual constructor for associating 'Task' with 'Project'
     public Task(String projectId, String title, String description, String status, LocalDateTime created, LocalDateTime updated) {
@@ -98,6 +99,14 @@ public class Task {
 
     public void setSubTasks(List<SubTask> subTasks) {
         this.subTasks = subTasks;
+    }
+
+    public List<User> getAssignedUsers() {
+        return assignedUsers;
+    }
+
+    public void setAssignedUsers(List<User> assignedUsers) {
+        this.assignedUsers = assignedUsers;
     }
 
 }

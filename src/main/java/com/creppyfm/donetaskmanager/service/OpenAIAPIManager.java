@@ -19,7 +19,6 @@ public class OpenAIAPIManager {
 
     Dotenv dotenv = Dotenv.load();
 
-    // TODO: figure out a way to extract task title independent of task description
     public List<String> buildsTaskList(String prompt) throws IOException, InterruptedException {
         List<String> choices = new ArrayList<>();
         ObjectMapper objectMapper = new ObjectMapper();

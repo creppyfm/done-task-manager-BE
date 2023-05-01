@@ -49,7 +49,6 @@ public class ProjectService {
         return project;
     }
 
-    // TODO: incorporate task description into prompt
     public void generateTasksForProject(String id) throws IOException {
         Project project = findProjectById(id);
 

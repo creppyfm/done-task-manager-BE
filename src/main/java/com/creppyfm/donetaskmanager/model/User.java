@@ -24,10 +24,14 @@ public class User {
     private String password;
     private String email;
     private String birthday;
+    private int workload;
     @JsonProperty("isAdmin")
     private boolean isAdmin;
     @DocumentReference
     private List<Project> projects;
+    private List<Task> currentTasks;
+    private List<Task> completedTasks; //getters and setters
+    private List<String> strengths;
 
     public ObjectId getId() {
         return id;
