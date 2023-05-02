@@ -29,8 +29,10 @@ public class User {
     private boolean isAdmin;
     @DocumentReference
     private List<Project> projects;
+    //TODO: Get&Set for below
+    private String teamName;
     private List<Task> currentTasks;
-    private List<Task> completedTasks; //getters and setters
+    private List<Task> completedTasks;
     private List<String> strengths;
 
     public ObjectId getId() {

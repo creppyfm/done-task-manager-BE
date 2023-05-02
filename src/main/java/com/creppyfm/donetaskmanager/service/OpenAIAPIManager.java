@@ -22,11 +22,11 @@ public class OpenAIAPIManager {
     public List<String> buildsTaskList(String prompt) throws IOException, InterruptedException {
         List<String> choices = new ArrayList<>();
         ObjectMapper objectMapper = new ObjectMapper();
-        OpenAIRequest openAIRequest = new OpenAIRequest("text-davinci-003", prompt, 0, 2000);
+        OpenAIRequest openAIRequest = new OpenAIRequest("text-completions-003", prompt, 0, 2000); //toggle model between gpt-3.5-turbo and text-davinci-003
         String input = objectMapper.writeValueAsString(openAIRequest);
 
         HttpRequest httpRequest = HttpRequest.newBuilder()
-                .uri(URI.create("https://api.openai.com/v1/completions"))
+                .uri(URI.create("https://api.openai.com/v1/completions")) //toggle /chat/ for chat vs raw model
                 .header("Content-Type", "application/json")
                 .header("Authorization", "Bearer " + dotenv.get("OPENAI_API_KEY"))
                 .POST(HttpRequest.BodyPublishers.ofString(input))

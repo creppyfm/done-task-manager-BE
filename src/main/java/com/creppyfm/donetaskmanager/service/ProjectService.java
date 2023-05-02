@@ -62,14 +62,17 @@ public class ProjectService {
                 "1. Setup Java & Spring Boot: Value: Install the Java runtime environment. Download and configure " +
                         "the Spring Boot application using the Spring Initializer, making sure to add the necessary dependencies. " +
                         "Confirm the file structure of the Spring Boot application matches the needs of your project.\n " +
+                "NOTE: Do not include any extra words, phrases, or sentences unrelated to the tasks you are generating." +
+                "Do not include phrases such as \"Sure, I can do that,\" or any phrases throughout " +
+                "or ending your response. ONLY return the list of generated tasks in the format requested above.\n" +
                 "Here is the project information:\n"
                 + projectInfo;
 
         // Call the OpenAIAPIManager to get the list of tasks
-        OpenAIAPIManager openAIAPIManager = new OpenAIAPIManager();
+        OpenAIChatAPIManager openAIChatAPIManager = new OpenAIChatAPIManager();
         List<String> tasks;
         try {
-            tasks = openAIAPIManager.buildsTaskList(prompt);
+            tasks = openAIChatAPIManager.buildsTaskList(prompt);
         } catch (IOException | InterruptedException e) {
             throw new IOException(e);
         }
